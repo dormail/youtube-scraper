@@ -3,7 +3,7 @@
 # the youtube vid info for every link in the 'link' column
 # returns a list with a dict for every video given in the df
 
-from get_video_data import get_video_data
+from youtube_utils import get_video_data
 from links_to_id import links_to_id
 import pandas as pd
 import numpy as np
