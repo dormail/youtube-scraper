@@ -14,7 +14,10 @@ ldi = np.vectorize(links_to_id)
 
 def scrape_from_df(dataframe):
     links = dataframe['link']
-    vid_id = ldi(links)
+    # vid_id = links_to_id(links)
+    vid_id = np.array([], dtype=str)
+    for link in links:
+        vid_id = np.append(vid_id, links_to_id(link))
     vid_info = gvd(vid_id)
 
     return vid_info

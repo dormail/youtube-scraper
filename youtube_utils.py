@@ -7,6 +7,17 @@ from secret import key as API_KEY
 
 
 def get_video_data(vid_id):
+    if vid_id == '-1':
+        data = {
+            'title': '',
+            'channelId': '',
+            'likeCount': '',
+            'dislikeCount': '',
+            'commentCount': '',
+            'duration': '',
+        }
+        return data
+
     # api parameters
     params = 'snippet,status,contentDetails,statistics,topicDetails,localizations'
     api_url = 'https://www.googleapis.com/youtube/v3/videos?part='+ params +'&id='+ vid_id+'&key='+API_KEY
@@ -42,6 +53,9 @@ def get_video_data(vid_id):
 
 
 def get_channel_name(channelid):
+    if channelid == '':
+        print(channelid + ' is an invalid channel id.')
+        return ''
     params = 'snippet%2CcontentDetails%2Cstatistics'
     api_url = 'https://youtube.googleapis.com/youtube/v3/channels?part=' + params + '&id=' + channelid + '&key=' + API_KEY
     api_response = requests.get(api_url)
