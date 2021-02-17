@@ -1,12 +1,10 @@
 # youtube_utils.py
+# get_video_data  returns a dict with data about a youtube video for a given video id
 
 import requests
-import csv
 import json
+from secret import key as API_KEY
 
-from secret import key
-
-API_KEY = key
 
 def get_video_data(vid_id):
     # api parameters
@@ -43,7 +41,22 @@ def get_video_data(vid_id):
         print(vid_id + ' is an invalid video id')
 
 
+def get_channel_name(channelid):
+    params = 'snippet%2CcontentDetails%2Cstatistics'
+    api_url = 'https://youtube.googleapis.com/youtube/v3/channels?part=' + params + '&id=' + channelid + '&key=' + API_KEY
+    api_response = requests.get(api_url)
+    videodetails = json.loads(api_response.text)
+    if len(videodetails['items']) > 0:
+        item = videodetails['items'][0]
+        name = item['snippet']['title']
+        return name
+    else:
+        print(channelid + ' is not a valid youtube channel id.')
+        return -1
+
+
 if __name__ == '__main__':
     vid_id = 'sehyLDPeB6M'
-    name = get_video_data(vid_id)
+    channelid = get_video_data(vid_id)['channelId']
+    name = get_channel_name(channelid)
     print(name)
