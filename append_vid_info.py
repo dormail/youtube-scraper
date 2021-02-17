@@ -21,11 +21,14 @@ def append_vid_info(vidinfo, dataframe):
         commentcount = np.append(commentcount, item['commentCount'])
         duration = np.append(duration, item['duration'])
 
+    name = gcn(channelid)
+
     dataframe['title'] = title
-    dataframe['channelid'] = channelid
-    dataframe['likecount'] = likecount
-    dataframe['dislikecount'] = dislikecount
-    dataframe['commentcount'] = commentcount
+    dataframe['ChannelName'] = name
+    dataframe['channelId'] = channelid
+    dataframe['likeCount'] = likecount
+    dataframe['dislikeCount'] = dislikecount
+    dataframe['commentCount'] = commentcount
     dataframe['duration'] = duration
 
     return dataframe
