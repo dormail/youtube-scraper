@@ -1,8 +1,10 @@
 # append_vid_info.py
 # python script appending vid info to a given dataframe
+
 import numpy as np
-import pandas as pd
-from scrape_from_df import scrape_from_df
+from youtube_utils import get_channel_name
+
+gcn = np.vectorize(get_channel_name)
 
 
 def append_vid_info(vidinfo, dataframe):
@@ -32,13 +34,3 @@ def append_vid_info(vidinfo, dataframe):
     dataframe['duration'] = duration
 
     return dataframe
-
-
-if __name__ == '__main__':
-    filename = 'test.ods'
-    output = 'test-output.ods'
-    df = pd.read_excel(filename)
-    inf = scrape_from_df(df)
-    append_vid_info(inf, df)
-
-    df.to_excel(output, index=False)
