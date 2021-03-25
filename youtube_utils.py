@@ -64,11 +64,37 @@ def get_channel_name(channelid):
     params = 'snippet%2CcontentDetails%2Cstatistics'
     api_url = 'https://youtube.googleapis.com/youtube/v3/channels?part=' + params + '&id=' + channelid + '&key=' + API_KEY
     api_response = requests.get(api_url)
+
+    print(api_url)
+    
     videodetails = json.loads(api_response.text)
     if len(videodetails['items']) > 0:
         item = videodetails['items'][0]
         name = item['snippet']['title']
         return name
+    else:
+        print(channelid + ' is not a valid youtube channel id.')
+        return -1
+
+
+def get_channel_data(channelid):
+    if channelid == '':
+        print(channelid + ' is an invalid channel id.')
+        return ''
+    params = 'snippet%2CcontentDetails%2Cstatistics'
+    api_url = 'https://youtube.googleapis.com/youtube/v3/channels?part=' + params + '&id=' + channelid + '&key=' + API_KEY
+    api_response = requests.get(api_url)
+    videodetails = json.loads(api_response.text)
+    if len(videodetails['items']) > 0:
+        item = videodetails['items'][0]
+        channelName = item['snippet']['title']
+        subscriberCount = item['statistics']['subscriberCount']
+        print(subscriberCount)
+        data = {
+            'channelName': channelName,
+            'subscriberCount': subscriberCount
+        }
+        return data
     else:
         print(channelid + ' is not a valid youtube channel id.')
         return -1

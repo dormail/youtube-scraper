@@ -3,9 +3,10 @@
 
 import numpy as np
 from youtube_utils import get_channel_name
+from youtube_utils import get_channel_data as gcd
 
 gcn = np.vectorize(get_channel_name)
-
+#gcd = np.vectorize(get_channel_data)
 
 def append_vid_info(vidinfo, dataframe):
     title = np.array([], dtype=str)
@@ -15,6 +16,10 @@ def append_vid_info(vidinfo, dataframe):
     commentcount = np.array([], dtype=str)
     duration = np.array([], dtype=str)
 
+    # channel related arrays
+    channelName = np.array([], dtype=str)
+    channelSubs = np.array([], dtype=str)
+
     try:
         for item in vidinfo:
             title = np.append(title, item['title'])
@@ -23,15 +28,20 @@ def append_vid_info(vidinfo, dataframe):
             dislikecount = np.append(dislikecount, item['dislikeCount'])
             commentcount = np.append(commentcount, item['commentCount'])
             duration = np.append(duration, item['duration'])
+
+            channelData = gcd(item['channelId'])
+            channelName = np.append(channelName, channelData['channelName'])
+            channelSubs = np.append(channelSubs, channelData['subscriberCount'])
+            
     
     except TypeError:
         print('Ooops, something went wrong during scraping')
 
-    name = gcn(channelid)
+    dataframe['channelId'] = channelid
+    dataframe['ChannelName'] = channelName
+    dataframe['ChannelSubs'] = channelSubs
 
     dataframe['title'] = title
-    dataframe['ChannelName'] = name
-    dataframe['channelId'] = channelid
     dataframe['likeCount'] = likecount
     dataframe['dislikeCount'] = dislikecount
     dataframe['commentCount'] = commentcount
