@@ -25,31 +25,36 @@ def get_video_data(vid_id):
     # this opens the link and tells your computer that the format it is reading is JSON
     api_response = requests.get(api_url)
     videodetails = json.loads(api_response.text)
-    if len(videodetails['items']) > 0:
-        item = videodetails['items'][0]
-        snippet = item.get('snippet', {})
-        title = snippet.get('localized', {}).get('title', {})
-        channelId = snippet.get('channelId', {})
+    #print(videodetails)
+    try:
+        if len(videodetails['items']) > 0:
+            item = videodetails['items'][0]
+            snippet = item.get('snippet', {})
+            title = snippet.get('localized', {}).get('title', {})
+            channelId = snippet.get('channelId', {})
 
-        stats = item.get('statistics', {})
-        likeCount = stats.get('likeCount', {})
-        dislikeCount = stats.get('dislikeCount', {})
-        commentCount = stats.get('commentCount', {})
+            stats = item.get('statistics', {})
+            likeCount = stats.get('likeCount', {})
+            dislikeCount = stats.get('dislikeCount', {})
+            commentCount = stats.get('commentCount', {})
 
-        duration = item.get('contentDetails', {}).get('duration', {})[2:]
+            duration = item.get('contentDetails', {}).get('duration', {})[2:]
 
-        data = {
-                'title': title,
-                'channelId' : channelId,
-                'likeCount': likeCount,
-                'dislikeCount': dislikeCount,
-                'commentCount': commentCount,
-                'duration': duration,
-        }
+            data = {
+                    'title': title,
+                    'channelId' : channelId,
+                    'likeCount': likeCount,
+                    'dislikeCount': dislikeCount,
+                    'commentCount': commentCount,
+                    'duration': duration,
+            }
 
-        return data
-    else:
-        print(vid_id + ' is an invalid video id')
+            return data
+        else:
+            print(vid_id + ' is an invalid video id')
+    
+    except KeyError:
+        print('Scraping failed.\nProbably bad api key.')
 
 
 def get_channel_name(channelid):

@@ -15,13 +15,17 @@ def append_vid_info(vidinfo, dataframe):
     commentcount = np.array([], dtype=str)
     duration = np.array([], dtype=str)
 
-    for item in vidinfo:
-        title = np.append(title, item['title'])
-        channelid = np.append(channelid, item['channelId'])
-        likecount = np.append(likecount, item['likeCount'])
-        dislikecount = np.append(dislikecount, item['dislikeCount'])
-        commentcount = np.append(commentcount, item['commentCount'])
-        duration = np.append(duration, item['duration'])
+    try:
+        for item in vidinfo:
+            title = np.append(title, item['title'])
+            channelid = np.append(channelid, item['channelId'])
+            likecount = np.append(likecount, item['likeCount'])
+            dislikecount = np.append(dislikecount, item['dislikeCount'])
+            commentcount = np.append(commentcount, item['commentCount'])
+            duration = np.append(duration, item['duration'])
+    
+    except TypeError:
+        print('Ooops, something went wrong during scraping')
 
     name = gcn(channelid)
 
