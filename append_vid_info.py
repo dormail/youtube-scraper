@@ -15,6 +15,7 @@ def append_vid_info(vidinfo, dataframe):
     dislikecount = np.array([], dtype=str)
     commentcount = np.array([], dtype=str)
     duration = np.array([], dtype=str)
+    caption = np.array([], dtype=str)
 
     # channel related arrays
     channelName = np.array([], dtype=str)
@@ -28,6 +29,7 @@ def append_vid_info(vidinfo, dataframe):
             dislikecount = np.append(dislikecount, item['dislikeCount'])
             commentcount = np.append(commentcount, item['commentCount'])
             duration = np.append(duration, item['duration'])
+            caption = np.append(caption, item['caption'])
 
             channelData = gcd(item['channelId'])
             channelName = np.append(channelName, channelData['channelName'])
@@ -46,5 +48,6 @@ def append_vid_info(vidinfo, dataframe):
     dataframe['dislikeCount'] = dislikecount
     dataframe['commentCount'] = commentcount
     dataframe['duration'] = duration
+    dataframe['caption'] = caption
 
     return dataframe

@@ -30,6 +30,8 @@ def get_video_data(vid_id):
         if len(videodetails['items']) > 0:
             item = videodetails['items'][0]
             snippet = item.get('snippet', {})
+            contentDetails = item.get('contentDetails', {})
+
             title = snippet.get('localized', {}).get('title', {})
             channelId = snippet.get('channelId', {})
 
@@ -40,6 +42,8 @@ def get_video_data(vid_id):
 
             duration = item.get('contentDetails', {}).get('duration', {})[2:]
 
+            caption = contentDetails.get('caption', {})
+
             data = {
                     'title': title,
                     'channelId' : channelId,
@@ -47,6 +51,7 @@ def get_video_data(vid_id):
                     'dislikeCount': dislikeCount,
                     'commentCount': commentCount,
                     'duration': duration,
+                    'caption': caption,
             }
 
             return data
